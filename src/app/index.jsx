@@ -15,14 +15,34 @@ export default class App extends React.PureComponent {
   render() {
     const { appStore } = this.props
     return (
-      <Pane style={{ flex: 8 }}>
-        <Header>
-          <TransparentInput placeholder={`Filter... (${appStore.filteredCurrencyPairs.length} currencies)`} onChange={appStore.setQuery} />
-          <Spacer />
-          <div><MarketFilter /></div>
-        </Header>
-        <CurrencyPairList currencyPairs={appStore.filteredCurrencyPairs} />
-      </Pane>
+      <View flow="row" style={{ flex: 1 }}>
+        <Pane style={{ flex: 8 }}>
+          <Header>
+            <TransparentInput placeholder={`Currency Pairs (${appStore.filteredCurrencyPairs.length})`} onChange={appStore.setQuery} />
+            <Spacer />
+            <div><MarketFilter /></div>
+          </Header>
+          <CurrencyPairList currencyPairs={appStore.filteredCurrencyPairs} />
+        </Pane>
+        <Divider size={1} color={OpenColor.gray[9]} />
+        <View flow="column" style={{ flex: 4 }}>
+          <Pane>
+            <Header>Balances</Header>
+            {appStore.balances.map(this.renderBalance)}
+          </Pane>
+          <Divider size={1} color={OpenColor.gray[9]} />
+          <Pane>
+            <Header>Orders</Header>
+          </Pane>
+        </View>
+      </View>
     )
   }
+
+  renderBalance = balance => (
+    <View key={balance.quote} flow="row">
+      <View>{balance.quote}</View>
+      <View>{balance.amount}</View>
+    </View>
+  )
 }

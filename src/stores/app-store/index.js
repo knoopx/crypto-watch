@@ -14,9 +14,14 @@ export default class AppStore {
   }
 
   @observable currencyPairMap = new Map()
+  @observable balanceMap = new Map()
 
   constructor() {
     this.exchange.connect()
+    this.balanceMap.set('BTC', {
+      quote: 'BTC',
+      amount: 1,
+    })
   }
 
   @computed get currencyPairs() {
@@ -26,12 +31,16 @@ export default class AppStore {
   @computed get filteredCurrencyPairs() {
     const results = Fuzzaldrin.filter(this.currencyPairs, this.filter.query, { key: 'name' })
     return _.filter(results, _.omitBy({
-      base: this.filter.market,
+      market: this.filter.market,
     }, _.isEmpty))
   }
 
   @computed get markets() {
     return _(this.currencyPairs).map('base').uniq().sort().value()
+  }
+
+  @computed get balances() {
+    return Array.from(this.balanceMap.values())
   }
 
   @action setQuery = (query) => {

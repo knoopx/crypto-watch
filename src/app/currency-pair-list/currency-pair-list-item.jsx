@@ -7,6 +7,7 @@ import Chart from './chart'
 export default class CurrencyPairListItem extends React.PureComponent {
   render() {
     const { currencyPair, appStore } = this.props
+    const windowSize = Math.ceil(currencyPair.candleSticks.length / 300 * 40)
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', padding: '16px', height: 330 }}>
@@ -15,7 +16,7 @@ export default class CurrencyPairListItem extends React.PureComponent {
           <div style={{ marginLeft: 8, fontSize: 13 }}>{(currencyPair.percentChange * 100).toFixed(2)}%</div>
         </div>
         <div style={{ flex: 1 }}>
-          <Chart seriesName={currencyPair.name} data={currencyPair.candleSticks} />
+          <Chart seriesName={currencyPair.name} data={currencyPair.candleSticks.slice(-windowSize)} />
         </div>
       </div>
     )
