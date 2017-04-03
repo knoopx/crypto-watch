@@ -44,7 +44,6 @@ module.exports = {
       {
         test: /\.jsx?$/,
         use: 'babel-loader',
-        include: path.resolve('./src'),
       },
       {
         test: /\.json$/,

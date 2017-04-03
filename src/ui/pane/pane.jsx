@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'ui/layout'
+import { View } from 'kui-layout'
 
 export default class Pane extends React.PureComponent {
   render() {

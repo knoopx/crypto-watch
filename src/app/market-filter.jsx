@@ -1,7 +1,7 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
 
-import { View, Gutter } from 'ui/layout'
+import { View, Gutter } from 'kui-layout'
 import Group from 'ui/group'
 import TabButton from 'ui/tab-button'
 

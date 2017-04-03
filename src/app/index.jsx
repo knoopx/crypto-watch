@@ -3,7 +3,7 @@ import { observable, computed } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import OpenColor from 'open-color'
 
-import { View, Divider, Spacer } from 'ui/layout'
+import { View, Divider, Spacer } from 'kui-layout'
 import { Pane, Header } from 'ui/pane'
 import TransparentInput from 'ui/transparent-input'
 import CurrencyPairList from './currency-pair-list'
@@ -24,7 +24,7 @@ export default class App extends React.PureComponent {
           </Header>
           <CurrencyPairList currencyPairs={appStore.filteredCurrencyPairs} />
         </Pane>
-        <Divider size={1} color={OpenColor.gray[9]} />
+        <Divider />
         <View flow="column" style={{ flex: 4 }}>
           <Pane>
             <Header>Balances</Header>

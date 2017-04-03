@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Gutter } from './layout'
+import { View, Gutter } from 'kui-layout'
 import OpenColor from 'open-color'
 import TouchableOpacity from './touchable-opacity'
 
