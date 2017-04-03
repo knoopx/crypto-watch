@@ -2,7 +2,7 @@ import React from 'react'
 import { observable, computed } from 'mobx'
 import { inject, observer } from 'mobx-react'
 
-import List from 'ui/virtual-list'
+import List from 'kui-virtual-list'
 
 import CurrencyPairListItem from './currency-pair-list-item'
 

@@ -3129,6 +3129,15 @@ kui-touchable-opacity@knoopx/kui-touchable-opacity:
     react-dom "^15.4.2"
     react-motion "^0.4.7"
 
+kui-virtual-list@knoopx/kui-virtual-list:
+  version "1.0.0"
+  resolved "https://codeload.github.com/knoopx/kui-virtual-list/tar.gz/5d94bf5b9fdacc4437f26e21652fd3ed844c5f25"
+  dependencies:
+    mobx "^3.1.8"
+    mobx-react "^4.1.5"
+    react "^15.4.2"
+    react-dom "^15.4.2"
+
 lazy-cache@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
@@ -3349,7 +3358,7 @@ mobx-react@^4.1.5:
   dependencies:
     hoist-non-react-statics "^1.2.0"
 
-mobx@^3.0.0, mobx@^3.1.7:
+mobx@^3.0.0, mobx@^3.1.7, mobx@^3.1.8:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-3.1.8.tgz#94a24ce41baa9d0ccf3bd71b17dbe093bb0e1b05"
 

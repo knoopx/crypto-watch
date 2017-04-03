@@ -16,6 +16,7 @@
     "fuzzaldrin": "^2.1.0",
     "kui-layout": "knoopx/kui-layout",
     "kui-touchable-opacity": "knoopx/kui-touchable-opacity",
+    "kui-virtual-list": "knoopx/kui-virtual-list",
     "lodash": "^4.17.4",
     "mobx": "^3.1.7",
     "mobx-react": "^4.1.5",
