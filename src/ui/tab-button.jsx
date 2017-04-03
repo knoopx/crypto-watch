@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Gutter } from 'kui-layout'
 import OpenColor from 'open-color'
-import TouchableOpacity from './touchable-opacity'
+import TouchableOpacity from 'kui-touchable-opacity'
+import { View, Gutter } from 'kui-layout'
 
 const styles = {
   default: {
@@ -22,7 +22,7 @@ export default class TabButton extends React.PureComponent {
     const { children, onClick, active, count } = this.props
 
     return (
-      <TouchableOpacity onClick={onClick} duration={0}>
+      <TouchableOpacity onClick={onClick} fadeOutDelay={0}>
         <View flow="row" style={{ ...styles.default, ...(active ? styles.active : {}) }}>
           <span style={{ fontWeight: 'bold' }}>{children}</span>
           <Gutter size={8} />

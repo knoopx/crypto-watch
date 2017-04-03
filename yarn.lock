@@ -3121,6 +3121,14 @@ kui-theme@knoopx/kui-theme:
     mobx-react "^4.1.5"
     react "^15.0.0"
 
+kui-touchable-opacity@knoopx/kui-touchable-opacity:
+  version "1.0.0"
+  resolved "https://codeload.github.com/knoopx/kui-touchable-opacity/tar.gz/42f7e24541c8ac923fd4ac99d7b806632e5c0f9a"
+  dependencies:
+    react "^15.4.2"
+    react-dom "^15.4.2"
+    react-motion "^0.4.7"
+
 lazy-cache@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
