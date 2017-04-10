@@ -10,7 +10,7 @@ import CurrencyPairListItem from './currency-pair-list-item'
 export default class CurrencyPairList extends React.PureComponent {
   render() {
     return (
-      <List items={this.props.currencyPairs} renderItem={this.renderItem} itemHeight={320} />
+      <List items={this.props.currencyPairs} renderItem={this.renderItem} itemHeight={50} />
     )
   }
 

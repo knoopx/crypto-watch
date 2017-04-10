@@ -1,11 +1,14 @@
-import Axios from 'axios'
-import { observable, action, computed, toJS } from 'mobx'
-import { Connection } from 'autobahn'
+import { observable, action, computed } from 'mobx'
+import { EMA } from 'technicalindicators'
+import { percentChange } from 'support'
 
 export default class CurrencyPair {
-  @observable buffer = []
+  windowSize = 3600 * 2
+
   @observable history = []
-  @observable isBackfilled = false
+  @observable speed = 0
+  runtime = 0
+  ticks = 0
 
   constructor(exchange, name) {
     this.name = name
@@ -13,51 +16,41 @@ export default class CurrencyPair {
     this.quote = quote
     this.base = base
     this.exchange = exchange
-    this.lastCandleDate = Date.now()
-    this.backfill()
+    this.ema20 = new EMA({ period: 20, values: [] })
+    this.ema50 = new EMA({ period: 50, values: [] })
+
+    setInterval(() => {
+      this.speed = this.runtime > 0 ? this.ticks / this.runtime : 0
+      ++this.runtime
+    }, 1000)
   }
 
   @action update(ticker) {
-    const now = Date.now()
-    if ((now - this.lastCandleDate) / 1000 > this.exchange.candleSize) {
-      this.history.push(this.current)
-      this.buffer = []
-      this.lastCandleDate = now
-    }
-    this.buffer.push(ticker.last)
-  }
+    ++this.ticks
 
-  @computed get current() {
-    return {
-      open: this.buffer[0],
-      close: this.buffer[this.buffer.length - 1],
-      high: Math.max(...this.buffer),
-      low: Math.min(...this.buffer),
-      volume: 0,
-      date: new Date(this.lastCandleDate),
+    this.history.push({
+      ...ticker,
+      ema20: this.ema20.nextValue(ticker.price),
+      ema50: this.ema50.nextValue(ticker.price),
+    })
+
+    if (this.history.length > this.windowSize) {
+      this.history.shift()
     }
   }
 
-  @computed get candleSticks() {
-    return [...toJS(this.history), this.current]
+  @computed get head() {
+    return this.history[0] || { price: 0, volume: 0 }
   }
 
-  @computed get last() {
-    return this.buffer[this.buffer.length - 1]
+  @computed get tail() {
+    return this.history[this.history.length - 1] || { price: 0, volume: 0 }
   }
 
   @computed get percentChange() {
-    if (this.candleSticks.length > 1) {
-      const first = this.candleSticks[this.candleSticks.length - 4]
-      const last = this.candleSticks[this.candleSticks.length - 1]
-      return (last.close - first.open) / first.open
+    if (this.history.length > 1) {
+      return percentChange(this.tail.price, this.head.price)
     }
     return 0
-  }
-
-  async backfill() {
-    const history = await this.exchange.getHistory(this)
-    this.history = [...history, ...this.history]
-    this.isBackfilled = true
   }
 }

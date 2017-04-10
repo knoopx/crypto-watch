@@ -1,7 +1,6 @@
 import { observable, action, computed, toJS } from 'mobx'
 import { observer } from 'mobx-react'
 import _ from 'lodash'
-import { flow, map, uniq, sortBy, filter } from 'lodash/fp'
 import Exchange from './exchange'
 import Fuzzaldrin from 'fuzzaldrin'
 
@@ -20,7 +19,7 @@ export default class AppStore {
   }
 
   @computed get currencyPairs() {
-    return sortBy(c => -c.percentChange)(Array.from(this.exchange.currencyPairMap.values()))
+    return _.orderBy(Array.from(this.exchange.currencyPairMap.values()), ['speed', 'percentChange'], ['desc', 'desc'])
   }
 
   @computed get filteredCurrencyPairs() {
@@ -31,7 +30,7 @@ export default class AppStore {
   }
 
   @computed get markets() {
-    return _(this.currencyPairs).map('base').uniq().sort().value()
+    return _.chain(this.currencyPairs).map('base').uniq().sort().value()
   }
 
   @action setQuery = (query) => {

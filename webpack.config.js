@@ -34,6 +34,9 @@ module.exports = {
   resolve: {
     modules: [path.resolve(__dirname, './src'), 'node_modules'],
     extensions: ['.js', '.jsx', '.json'],
+    alias: {
+      linkedlist: 'linkedlist/lib/linkedlist.js',
+    },
   },
   module: {
     loaders: [
