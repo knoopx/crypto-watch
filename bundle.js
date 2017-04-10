@@ -108394,6 +108394,8 @@ var CurrencyPairList = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_re
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ui_charting__ = __webpack_require__("./src/ui/charting/index.jsx");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_open_color__ = __webpack_require__("./node_modules/open-color/open-color.json");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_open_color___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_open_color__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash__ = __webpack_require__("./node_modules/lodash/lodash.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash__);
 var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -108410,6 +108412,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 // import scale from 'linear-scale'
+
 
 
 
@@ -108488,9 +108491,12 @@ var Sparkline = function (_React$PureComponent) {
           height = _props3.height,
           data = _props3.data;
 
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3__["scaleLinear"])().range([1, height - 1]).domain(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3__["extent"])(data, function (d) {
-        return d.price;
+      var values = __WEBPACK_IMPORTED_MODULE_4_lodash___default.a.flatten(['price', 'ema20', 'ema50'].map(function (prop) {
+        return data.map(function (d) {
+          return d[prop];
+        });
       }));
+      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3__["scaleLinear"])().range([1, height - 1]).domain(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_d3__["extent"])(values));
     }
   }, {
     key: 'yVolumeScale',
@@ -108526,13 +108532,14 @@ var Sparkline = function (_React$PureComponent) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_open_color___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_open_color__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash__ = __webpack_require__("./node_modules/lodash/lodash.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ui_blink__ = __webpack_require__("./src/ui/blink.jsx");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ui_color_indicator__ = __webpack_require__("./src/ui/color-indicator.jsx");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ui_layout__ = __webpack_require__("./src/ui/layout/index.jsx");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ui_pane__ = __webpack_require__("./src/ui/pane/index.jsx");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ui_transparent_input__ = __webpack_require__("./src/ui/transparent-input.jsx");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__currency_pair_list__ = __webpack_require__("./src/app/currency-pair-list/index.jsx");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__market_filter__ = __webpack_require__("./src/app/market-filter.jsx");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_support__ = __webpack_require__("./src/support/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ui_blink__ = __webpack_require__("./src/ui/blink.jsx");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ui_color_indicator__ = __webpack_require__("./src/ui/color-indicator.jsx");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ui_layout__ = __webpack_require__("./src/ui/layout/index.jsx");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ui_pane__ = __webpack_require__("./src/ui/pane/index.jsx");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ui_transparent_input__ = __webpack_require__("./src/ui/transparent-input.jsx");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__currency_pair_list__ = __webpack_require__("./src/app/currency-pair-list/index.jsx");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__market_filter__ = __webpack_require__("./src/app/market-filter.jsx");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return App; });
 var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
 
@@ -108562,23 +108569,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var _ref4 = _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["a" /* Spacer */], {});
 
-var _ref5 = _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["a" /* Spacer */], {});
+var _ref4 = _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["a" /* Spacer */], {});
 
-var _ref6 = _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["a" /* Spacer */], {});
+var _ref5 = _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["a" /* Spacer */], {});
 
-var _ref7 = _jsx('div', {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_11__market_filter__["a" /* default */], {}));
+var _ref6 = _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["a" /* Spacer */], {});
 
-var _ref8 = _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["a" /* Header */], {}, void 0, 'Balances');
+var _ref7 = _jsx('div', {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_12__market_filter__["a" /* default */], {}));
 
-var _ref9 = _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["a" /* Header */], {}, void 0, 'Orders');
+var _ref8 = _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_pane__["a" /* Header */], {}, void 0, 'Balances');
 
-var _ref10 = _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["a" /* Spacer */], {});
+var _ref9 = _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_pane__["a" /* Header */], {}, void 0, 'Orders');
 
-var _ref11 = _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["a" /* Spacer */], {});
+var _ref10 = _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["a" /* Spacer */], {});
 
-var _ref12 = _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["a" /* Spacer */], {});
+var _ref11 = _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["a" /* Spacer */], {});
+
+var _ref12 = _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["a" /* Spacer */], {});
 
 var App = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_react__["inject"])('appStore'), _dec(_class = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_react__["observer"])(_class = function (_React$PureComponent) {
   _inherits(App, _React$PureComponent);
@@ -108611,16 +108619,16 @@ var App = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_react__
         var currencyPair = _this.props.appStore.exchange.currencyPairMap.get(base + '_' + quote);
         if (currencyPair) {
           var marketValue = currencyPair.tail.price;
-          return (marketValue - costBasis) / ((marketValue + costBasis) / 2) * 100;
+          return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5_support__["a" /* percentChange */])(costBasis, marketValue);
         }
         return 0;
       }).value().reduce(function (sum, r) {
         return sum + r;
       }, 0);
 
-      return _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["b" /* View */], {
+      return _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["b" /* View */], {
         style: { padding: 8, borderBottom: '1px solid ' + __WEBPACK_IMPORTED_MODULE_3_open_color___default.a.gray[9] }
-      }, quote, _jsx('div', {}, void 0, quote), _ref4, _jsx('div', {}, void 0, balance.amount.toFixed(8)), _ref5, _jsx(__WEBPACK_IMPORTED_MODULE_5_ui_blink__["a" /* default */], {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_6_ui_color_indicator__["a" /* default */], {
+      }, quote, _jsx('div', {}, void 0, quote), _ref4, _jsx('div', {}, void 0, (balance.amount * 100).toFixed(8)), _ref5, _jsx(__WEBPACK_IMPORTED_MODULE_6_ui_blink__["a" /* default */], {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_color_indicator__["a" /* default */], {
         value: roi
       }, void 0, roi.toFixed(2), '%')));
     }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -108631,24 +108639,24 @@ var App = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_react__
     value: function render() {
       var appStore = this.props.appStore;
 
-      return _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["b" /* View */], {
+      return _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["b" /* View */], {
         flow: 'row',
         style: { flex: 1 }
-      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["b" /* Pane */], {
+      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_pane__["b" /* Pane */], {
         style: { flex: 8 }
-      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["a" /* Header */], {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_transparent_input__["a" /* default */], {
+      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_pane__["a" /* Header */], {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_10_ui_transparent_input__["a" /* default */], {
         placeholder: 'Filter... (' + appStore.filteredCurrencyPairs.length + ' currencies)',
         onChange: appStore.setQuery
-      }), _ref6, _ref7), _jsx(__WEBPACK_IMPORTED_MODULE_10__currency_pair_list__["a" /* default */], {
+      }), _ref6, _ref7), _jsx(__WEBPACK_IMPORTED_MODULE_11__currency_pair_list__["a" /* default */], {
         currencyPairs: appStore.filteredCurrencyPairs
-      })), _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["c" /* Divider */], {
+      })), _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["c" /* Divider */], {
         color: __WEBPACK_IMPORTED_MODULE_3_open_color___default.a.gray[9],
         size: 1
-      }), _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["b" /* View */], {
+      }), _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["b" /* View */], {
         flow: 'column',
         style: { flex: 4 }
-      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["b" /* Pane */], {}, void 0, _ref8, _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["c" /* Body */], {}, void 0, Array.from(appStore.exchange.balances).map(this.renderBalance))), _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["b" /* Pane */], {}, void 0, _ref9, _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["c" /* Body */], {}, void 0, appStore.exchange.orders.map(function (order, index) {
-        return _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_layout__["b" /* View */], {
+      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_pane__["b" /* Pane */], {}, void 0, _ref8, _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_pane__["c" /* Body */], {}, void 0, Array.from(appStore.exchange.balances).map(this.renderBalance))), _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_pane__["b" /* Pane */], {}, void 0, _ref9, _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_pane__["c" /* Body */], {}, void 0, appStore.exchange.orders.map(function (order, index) {
+        return _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_layout__["b" /* View */], {
           style: { padding: 8, borderBottom: '1px solid ' + __WEBPACK_IMPORTED_MODULE_3_open_color___default.a.gray[9] }
         }, index, _jsx('div', {}, void 0, order.type), _ref10, _jsx('div', {}, void 0, order.currencyPair.name), _ref11, _jsx('div', {}, void 0, order.rate.toFixed(8)), _ref12, _jsx('div', {}, void 0, order.amount.toFixed(8)));
       })))));
@@ -108827,6 +108835,7 @@ render();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mobx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mobx__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_technicalindicators__ = __webpack_require__("./node_modules/technicalindicators/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_technicalindicators___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_technicalindicators__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_support__ = __webpack_require__("./src/support/index.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CurrencyPair; });
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -108880,6 +108889,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 function _initializerWarningHelper(descriptor, context) {
   throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
+
 
 
 
@@ -108946,7 +108956,7 @@ var CurrencyPair = (_class = function () {
     key: 'percentChange',
     get: function get() {
       if (this.history.length > 1) {
-        return (this.tail.price - this.head.price) / ((this.head.price + this.tail.price) / 2);
+        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_support__["a" /* percentChange */])(this.tail.price, this.head.price);
       }
       return 0;
     }
@@ -109415,6 +109425,17 @@ var AppStore = (_class = function () {
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__app_store__["a"]; });
 
 
+
+/***/ }),
+
+/***/ "./src/support/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = percentChange;
+function percentChange(before, after) {
+  return (after - before) / ((after + before) / 2);
+}
 
 /***/ }),
 
