@@ -100451,7 +100451,7 @@ let AppStore = (_class = function () {
   _createClass(AppStore, [{
     key: 'currencyPairs',
     get: function () {
-      return __WEBPACK_IMPORTED_MODULE_1_lodash___default()(this.exchanges).map('currencyPairs').flatten().orderBy(['quote', 'base'], ['asc', 'asc']).value();
+      return __WEBPACK_IMPORTED_MODULE_1_lodash___default()(this.exchanges).map('currencyPairs').flatten().orderBy(['percentChange', 'quote', 'base'], ['desc', 'asc', 'asc']).value();
     }
   }, {
     key: 'filteredCurrencyPairs',
