@@ -99834,7 +99834,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var _ref = _jsx(__WEBPACK_IMPORTED_MODULE_11__market_filter__["a" /* default */], {});
+var _ref = _jsx(__WEBPACK_IMPORTED_MODULE_11__market_filter__["a" /* default */], {
+  className: 'flex-auto justify-end-ns pl2 bl b--moon-gray'
+});
 
 let App = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_react__["inject"])('appStore'), _dec(_class = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_react__["observer"])(_class = function (_React$PureComponent) {
   _inherits(App, _React$PureComponent);
@@ -99852,8 +99854,8 @@ let App = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_react__
       return _jsx('div', {
         className: 'flex flex-column flex-auto'
       }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["a" /* Header */], {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_9_ui_transparent_input__["a" /* default */], {
-        className: 'pa2 mb1',
-        placeholder: `Filter... (${appStore.filteredCurrencyPairs.length} currencies)`,
+        className: 'pa2',
+        placeholder: `${appStore.filteredCurrencyPairs.length} currencies`,
         onChange: appStore.setQuery
       }), _ref), _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_pane__["b" /* Pane */], {
         className: 'bb b--moon-gray',
@@ -99887,6 +99889,8 @@ var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" &
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class;
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -99923,9 +99927,12 @@ let MarketFilter = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_mob
   _createClass(MarketFilter, [{
     key: 'render',
     value: function render() {
+      const _props = this.props,
+            { className, appStore } = _props,
+            props = _objectWithoutProperties(_props, ['className', 'appStore']);
       return _jsx('div', {
-        className: 'flex flex-auto overflow-x-auto'
-      }, void 0, this.props.appStore.markets.map(this.renderMarket));
+        className: __WEBPACK_IMPORTED_MODULE_2_classnames___default()('flex overflow-x-auto', className)
+      }, void 0, appStore.markets.map(this.renderMarket));
     }
   }]);
 
