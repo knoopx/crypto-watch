@@ -7,20 +7,12 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
     'react-hot-loader/patch',
-    'babel-polyfill',
+    'tachyons',
     './src',
   ],
-
   plugins: [
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        postcss: [
-          require('postcss-import'), require('postcss-cssnext'),
-        ],
-      },
-    }),
-    new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({ title: productName, template: 'src/index.ejs' }),
+    new webpack.NamedModulesPlugin(),
     new webpack.ExternalsPlugin('commonjs', []),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
@@ -34,24 +26,16 @@ module.exports = {
   resolve: {
     modules: [path.resolve(__dirname, './src'), 'node_modules'],
     extensions: ['.js', '.jsx', '.json'],
-    alias: {
-      linkedlist: 'linkedlist/lib/linkedlist.js',
-    },
   },
   module: {
-    loaders: [
-      {
-        test: /\.css?$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
-      },
+    rules: [
       {
         test: /\.jsx?$/,
         use: 'babel-loader',
-        include: path.resolve('./src'),
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader',
+        include: [path.resolve('./src')],
+      }, {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },

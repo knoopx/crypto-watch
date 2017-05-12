@@ -1,13 +1,14 @@
 import React from 'react'
-import { PropTypes } from 'mobx-react'
 import { line } from 'd3'
+import PropTypes from 'prop-types'
+import { propTypes } from 'mobx-react'
 import OpenColor from 'open-color'
 
 export default class Line extends React.PureComponent {
   static propTypes = {
-    data: PropTypes.arrayOrObservableArray.isRequired,
-    x: React.PropTypes.func.isRequired,
-    y: React.PropTypes.func.isRequired,
+    data: propTypes.arrayOrObservableArray,
+    x: PropTypes.func,
+    y: PropTypes.func,
   }
 
   static defaultProps = {

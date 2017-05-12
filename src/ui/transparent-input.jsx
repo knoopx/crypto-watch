@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 
 export default class TransparentInput extends React.PureComponent {
   static defaultProps = {
@@ -6,9 +7,14 @@ export default class TransparentInput extends React.PureComponent {
   }
 
   render() {
-    const { onChange, ...props } = this.props
+    const { className, onChange, ...props } = this.props
     return (
-      <input style={{ flex: 1, outline: 'none', border: 'none', background: 'none', fontSize: '14px', color: 'inherit', fontSize: 'inherit' }} onChange={this.onChange} {...props} />
+      <input
+        className={classNames('flex flex-auto input-reset', className)}
+        style={{ outline: 'none', border: 'none', background: 'none', fontSize: '14px', color: 'inherit', fontSize: 'inherit' }}
+        onChange={this.onChange}
+        {...props}
+      />
     )
   }
 

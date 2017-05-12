@@ -1,9 +1,8 @@
 import React from 'react'
-import { View } from 'ui/layout'
 
 export default class Group extends React.PureComponent {
   render() {
-    return <View children={this.renderWithSeparators(this.props.children)} />
+    return <div children={this.renderWithSeparators(this.props.children)} />
   }
 
   renderWithSeparators = (children) => {

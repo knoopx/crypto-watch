@@ -1,13 +1,11 @@
 import React from 'react'
-import { View } from 'ui/layout'
+import classNames from 'classnames'
 
 export default class Pane extends React.PureComponent {
   render() {
-    const { style, ...props } = this.props
+    const { className, ...props } = this.props
     return (
-      <View flow="column" style={{ flex: 1, ...style }} {...props}>
-        {this.props.children}
-      </View>
+      <div className={classNames('flex flex-column flex-auto', className)} {...props} />
     )
   }
 }

@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom'
 import { useStrict } from 'mobx'
 import { Provider } from 'mobx-react'
 import { AppContainer } from 'react-hot-loader'
+
 import App from './app'
 import { AppStore } from './stores'
-import 'global.css'
+import exchanges from './exchanges'
 
 // useStrict(true)
-
-const appStore = new AppStore()
+const appStore = new AppStore(exchanges.map(Exchange => new Exchange()))
 
 window.appStore = appStore
 

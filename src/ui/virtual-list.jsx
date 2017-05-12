@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import { observable, computed, action, runInAction } from 'mobx'
 import { propTypes, observer } from 'mobx-react'
@@ -6,9 +7,9 @@ import { propTypes, observer } from 'mobx-react'
 export default class VirtualList extends React.PureComponent {
   static propTypes = {
     items: propTypes.arrayOrObservableArray.isRequired,
-    itemHeight: React.PropTypes.number.isRequired,
-    renderItem: React.PropTypes.func.isRequired,
-    bufferSize: React.PropTypes.number.isRequired,
+    itemHeight: PropTypes.number.isRequired,
+    renderItem: PropTypes.func.isRequired,
+    bufferSize: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -95,7 +96,7 @@ export default class VirtualList extends React.PureComponent {
     return (
       <div style={{ display: 'flex', flex: 1, flexDirection: 'row', overflow: 'hidden' }}>
         <div ref={this.setContainer} style={{ flex: 1, flexDirection: 'column', maxWidth: '100%', overflowY: 'auto' }} onScroll={this.onScroll}>
-          <div style={{ display: 'flex', flexDirection: 'column', height: this.totalHeight - this.visibleItemsOffsetY, transform: `translateY(${this.visibleItemsOffsetY}px)`, overflow: 'hidden' }}>
+          <div style={{ height: this.totalHeight - this.visibleItemsOffsetY, transform: `translateY(${this.visibleItemsOffsetY}px)`, overflow: 'hidden' }}>
             {this.visibleItems.map(this.props.renderItem)}
           </div>
         </div>

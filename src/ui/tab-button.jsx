@@ -1,33 +1,23 @@
 import React from 'react'
-import { View, Gutter } from './layout'
-import OpenColor from 'open-color'
+import classNames from 'classnames'
 import TouchableOpacity from './touchable-opacity'
 
 const styles = {
-  default: {
-    cursor: 'pointer',
-    padding: '4px 16px',
-    alignItems: 'center',
-    backgroundColor: OpenColor.gray[7],
-    borderRadius: '16px',
-  },
-  active: {
-    color: 'white',
-    backgroundColor: OpenColor.gray[6],
-  },
+  default: 'inline-flex pointer pv2 ph3 items-center justify-center br-pill white',
+  inactive: 'bg-moon-gray',
+  active: 'bg-gray',
 }
 
 export default class TabButton extends React.PureComponent {
   render() {
-    const { children, onClick, active, count } = this.props
+    const { onClick, active, count, className, children } = this.props
 
     return (
       <TouchableOpacity onClick={onClick} duration={0}>
-        <View flow="row" style={{ ...styles.default, ...(active ? styles.active : {}) }}>
-          <span style={{ fontWeight: 'bold' }}>{children}</span>
-          <Gutter size={8} />
-          <span style={{ fontSize: 13 }}>{count}</span>
-        </View>
+        <div className={classNames(styles.default, { [styles.active]: active, [styles.inactive]: !active }, className)}>
+          <span className="b mr2">{children}</span>
+          <span className="f7">{count}</span>
+        </div>
       </TouchableOpacity>
     )
   }

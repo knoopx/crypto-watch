@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import OpenColor from 'open-color'
 
 export default class ColorIndicator extends React.PureComponent {
   static propTypes = {
-    value: React.PropTypes.number.isRequired,
-    positiveColor: React.PropTypes.string.isRequired,
-    negativeColor: React.PropTypes.string.isRequired,
+    value: PropTypes.number.isRequired,
+    positiveColor: PropTypes.string.isRequired,
+    negativeColor: PropTypes.string.isRequired,
   }
 
   static defaultProps = {

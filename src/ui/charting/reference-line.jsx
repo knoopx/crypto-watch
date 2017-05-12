@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import { line } from 'd3'
 
 export default class ReferenceLine extends React.PureComponent {
   static propTypes = {
-    width: React.PropTypes.number,
-    y: React.PropTypes.number.isRequired,
-    yScale: React.PropTypes.func
+    width: PropTypes.number,
+    y: PropTypes.number.isRequired,
+    yScale: PropTypes.func
   }
 
   render() {

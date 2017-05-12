@@ -11,7 +11,7 @@ class Sparkline extends React.PureComponent {
 
     return (
       <Chart width={width} height={height} data={data} x={this.x} >
-        <Bar y={this.yVolume} fill={OpenColor.gray[7]} opacity={0.3} />
+        {/* <Bar y={this.yVolume} fill={OpenColor.gray[7]} opacity={0.3} /> */}
         <Line y={this.y} stroke={OpenColor.gray[6]} />
         <Line y={this.yEMA20} stroke={OpenColor.yellow[6]} />
         <Line y={this.yEMA50} stroke={OpenColor.blue[6]} />
@@ -39,7 +39,7 @@ class Sparkline extends React.PureComponent {
   y = data => this.yScale(data.price)
   yEMA20 = data => this.yScale(data.ema20)
   yEMA50 = data => this.yScale(data.ema50)
-  yVolume = data => this.yVolumeScale(data.baseVolume)
+  // yVolume = data => this.yVolumeScale(data.baseVolume)
 }
 
 export default fitWidth(Sparkline)

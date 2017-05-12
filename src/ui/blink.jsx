@@ -24,7 +24,7 @@ export default class Blink extends React.PureComponent {
     const { style, ...props } = this.props
     return (
       <Motion defaultStyle={{ opacity: 1 }} style={{ opacity: this.state.hasChanged ? spring(0) : spring(1) }}>
-        {transitionStyle => <div {...props} style={{ ...style, ...transitionStyle }} />}
+        {transitionStyle => <span {...props} style={{ ...style, ...transitionStyle }} />}
       </Motion>
     )
   }

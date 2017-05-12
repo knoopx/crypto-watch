@@ -32,14 +32,14 @@ export default class TouchableOpacity extends React.PureComponent {
   }
 
   render() {
-    const { style, duration, ...props } = this.props
+    const { style, duration, children, ...props } = this.props
+    const child = React.Children.only(children)
+    // {...props} style={} onMouseDown={this.onMouseDown}
 
     return (
-      <div style={{ ...style }} onMouseDown={this.onMouseDown}>
-        <Motion defaultStyle={{ opacity: 1 }} style={{ opacity: spring(this.state.isMouseDown ? 0.25 : 1) }}>
-          {animatedStyle => <div {...props} style={animatedStyle} />}
-        </Motion>
-      </div>
+      <Motion defaultStyle={{ opacity: 1 }} style={{ opacity: spring(this.state.isMouseDown ? 0.25 : 1) }}>
+        {animatedStyle => React.cloneElement(child, { ...props, style: { ...style, ...animatedStyle }, onMouseDown: this.onMouseDown })}
+      </Motion>
     )
   }
 }

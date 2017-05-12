@@ -1,13 +1,14 @@
 import React from 'react'
-import { PropTypes } from 'mobx-react'
+import PropTypes from 'prop-types'
+import { propTypes } from 'mobx-react'
 
 export default class Bar extends React.PureComponent {
   static propTypes = {
-    width: React.PropTypes.number.isRequired,
-    height: React.PropTypes.number.isRequired,
-    data: PropTypes.arrayOrObservableArray.isRequired,
-    x: React.PropTypes.func.isRequired,
-    y: React.PropTypes.func.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    data: propTypes.arrayOrObservableArray.isRequired,
+    x: PropTypes.func.isRequired,
+    y: PropTypes.func.isRequired,
   }
 
   static defaultProps = {

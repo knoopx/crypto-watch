@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 
 export default class Footer extends React.PureComponent {
   static propTypes = {
-    children: React.PropTypes.any,
-    onClick: React.PropTypes.func
+    children: PropTypes.any,
+    onClick: PropTypes.func
   }
 
   render() {

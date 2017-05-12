@@ -1,11 +1,9 @@
 import { observable, action, computed, toJS } from 'mobx'
-import { observer } from 'mobx-react'
 import _ from 'lodash'
-import Exchange from './exchange'
 import Fuzzaldrin from 'fuzzaldrin'
 
 export default class AppStore {
-  exchange = new Exchange()
+  @observable exchange
 
   @observable filter = {
     query: '',
@@ -14,12 +12,12 @@ export default class AppStore {
 
   @observable currencyPairMap = new Map()
 
-  constructor() {
-    this.exchange.connect()
+  constructor(exchanges) {
+    this.exchanges = exchanges
   }
 
   @computed get currencyPairs() {
-    return _.orderBy(Array.from(this.exchange.currencyPairMap.values()), ['speed', 'percentChange'], ['desc', 'desc'])
+    return _(this.exchanges).map('currencyPairs').flatten().orderBy(['percentChange', 'quote', 'base'], ['desc', 'asc', 'asc']).value()
   }
 
   @computed get filteredCurrencyPairs() {

@@ -1,13 +1,14 @@
 import React from 'react'
-import { PropTypes } from 'mobx-react'
+import PropTypes from 'prop-types'
+import { propTypes } from 'mobx-react'
 
 export default class Chart extends React.PureComponent {
   static propTypes = {
-    width: React.PropTypes.number.isRequired,
-    height: React.PropTypes.number.isRequired,
-    data: PropTypes.arrayOrObservableArray.isRequired,
-    x: React.PropTypes.func,
-    y: React.PropTypes.func,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    data: propTypes.arrayOrObservableArray.isRequired,
+    x: PropTypes.func,
+    y: PropTypes.func,
   }
 
   static defaultProps = {

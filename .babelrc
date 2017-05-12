@@ -1,15 +1,13 @@
 {
-  "presets": [
-    "react",
-    ["latest", {
-      "es2015": {
-        "modules": false,
-      },
-    }],
-    "stage-1"
-  ],
+  "presets": [ "react"],
   "plugins": [
-    "transform-decorators-legacy"
+    "transform-export-extensions",
+    "transform-decorators-legacy",
+    "autobind-class-methods",
+    "transform-class-properties",
+    "syntax-trailing-function-commas",
+    "transform-object-rest-spread",
+    "transform-es2015-classes",
   ],
   "env": {
     "development": {
