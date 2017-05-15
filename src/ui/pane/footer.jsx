@@ -1,29 +1,12 @@
-import PropTypes from 'prop-types';
 import React from 'react'
+import classNames from 'classnames'
 
-export default class Footer extends React.PureComponent {
-  static propTypes = {
-    children: PropTypes.any,
-    onClick: PropTypes.func
-  }
-
+export default class Header extends React.PureComponent {
   render() {
-    const style = {
-      display: 'flex',
-      flexDirection: 'row',
-      padding: '8px 16px',
-      backgroundColor: '#eee',
-      borderTop: '1px solid #bbb',
-      alignItems: 'center',
-      height: 40
-    }
-
-    const { onClick } = this.props
+    const { className, ...props } = this.props
 
     return (
-      <div style={style} {...{ onClick }}>
-        {this.props.children}
-      </div>
+      <div className={classNames('flex pa2 bt b--moon-gray items-center', className)} {...props} />
     )
   }
 }

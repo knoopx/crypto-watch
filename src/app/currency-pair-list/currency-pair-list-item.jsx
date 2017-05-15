@@ -1,29 +1,28 @@
 import React from 'react'
+import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import Blink from 'ui/blink'
 import ColorIndicator from 'ui/color-indicator'
 import Sparkline from './sparkline'
-import { symbolize } from 'support'
+import R from 'ramda'
+import { symbolize, summarize } from 'support'
 
-@inject('appStore')
 @observer
 export default class CurrencyPairListItem extends React.PureComponent {
   render() {
-    const { currencyPair, appStore } = this.props
-    const { exchange } = appStore
-    const rate = currencyPair.tail.price
-
+    const { currencyPair } = this.props
     return (
-      <div className="flex items-center pa3 bb b--light-gray" >
-        <div className="mr4 silver" style={{ width: '4rem' }}>{currencyPair.exchange.constructor.name}</div>
-        <div className="mr4 b tr" style={{ width: '3rem' }}>{currencyPair.base}</div>
-        <div className="mr2 tr" style={{ width: '8rem' }}>{Array.from((currencyPair.tail.price).toFixed(8)).map((char, i) => <Blink key={i}>{char}</Blink>)}</div>
-        <div className="mr4" style={{ width: '3rem' }}>{currencyPair.quote}</div>
-        <ColorIndicator className="mr4 tr f6" style={{ width: '3rem' }} value={currencyPair.percentChange}>
-          <Blink>{symbolize((currencyPair.percentChange * 100).toFixed(2))}%</Blink>
-        </ColorIndicator>
-        <div className="flex-auto">
-          <Sparkline data={currencyPair.history} height={30} />
+      <div className="flex flex-auto justify-center items-center pa3 ba b--light-gray" >
+        <div className="mr4 tr">
+          <div className="b">{currencyPair.quote}</div>
+          <div className="silver mb3 f7">{currencyPair.exchange.constructor.name}</div>
+          <div className="mb1">{Array.from((currencyPair.tail('close')).toFixed(8)).map((char, i) => <Blink key={i}>{char}</Blink>)} {currencyPair.base}</div>
+          <ColorIndicator className="f6" value={currencyPair.percentChange}>
+            <Blink>{symbolize((currencyPair.percentChange * 100).toFixed(2))}%</Blink>
+          </ColorIndicator>
+        </div>
+        <div className="w5">
+          <Sparkline data={toJS(currencyPair.candles)} width={200} height={100} />
         </div>
       </div>
     )

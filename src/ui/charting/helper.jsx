@@ -6,23 +6,25 @@ export function fitWidth(Component, minWidth = 100) {
     state = {}
 
     componentDidMount() {
-      this.handleWindowResize()
-      // window.addEventListener('resize', this.handleWindowResize)
+      this.onWindowResize()
+      window.addEventListener('resize', this.onWindowResize)
     }
 
     componentWillUnmount() {
-      // window.removeEventListener('resize', this.handleWindowResize)
+      window.removeEventListener('resize', this.onWindowResize)
     }
 
-    handleWindowResize = () => {
-      this.setState({ width: Math.max(findDOMNode(this).parentNode.clientWidth, minWidth) })
+    onWindowResize() {
+      const { parentNode } = findDOMNode(this)
+      const parentWidth = parentNode ? parentNode.clientWidth : 0
+      this.setState({ width: Math.max(parentWidth, minWidth) })
     }
 
     render() {
       if (this.state.width) {
         return <Component width={this.state.width} {...this.props} />
       }
-      return <noscript />
+      return null
     }
 	}
 }

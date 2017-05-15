@@ -1,45 +1,51 @@
 import React from 'react'
-// import scale from 'linear-scale'
-import { scaleLinear, extent } from 'd3'
-import { Chart, Line, Bar, fitWidth } from 'ui/charting'
+import { max, scaleLinear, scaleBand, extent } from 'd3'
+import { Chart, Line, Bar } from 'ui/charting'
 import OpenColor from 'open-color'
-import _ from 'lodash'
 
-class Sparkline extends React.PureComponent {
+export default class Sparkline extends React.PureComponent {
+  static defaultProps = {
+    padding: 1,
+  }
+
   render() {
     const { width, height, data, ...props } = this.props
 
     return (
       <Chart width={width} height={height} data={data} x={this.x} >
-        {/* <Bar y={this.yVolume} fill={OpenColor.gray[7]} opacity={0.3} /> */}
+        <Bar x={this.xMACD} xScale={this.xMACDScale} y={this.yMACD} yScale={this.yMACDScale} fill={({ macd }) => macd > 0 ? OpenColor.green[3] : OpenColor.red[3]} />
         <Line y={this.y} stroke={OpenColor.gray[6]} />
-        <Line y={this.yEMA20} stroke={OpenColor.yellow[6]} />
-        <Line y={this.yEMA50} stroke={OpenColor.blue[6]} />
       </Chart>
     )
   }
 
   get xScale() {
-    const { width, data } = this.props
-    return scaleLinear().range([1, width - 1]).domain(extent(data, (d, i) => i))
+    const { width, padding, data } = this.props
+    return scaleLinear().range([0 + padding, width - padding]).domain(extent(data, (d, i) => i))
   }
 
   get yScale() {
-    const { height, data } = this.props
-    const values = _.flatten(['price', 'ema20', 'ema50'].map(prop => data.map(d => d[prop])))
-    return scaleLinear().range([1, height - 1]).domain(extent(values))
+    const { height, padding, data } = this.props
+    const values = data.map(d => d.close)
+    return scaleLinear().range([height - padding, 0 + padding]).domain(extent(values))
   }
 
-  get yVolumeScale() {
-    const { height, data } = this.props
-    return scaleLinear().range([1, height - 1]).domain([0, Math.max(...data.map(d => d.baseVolume))])
+  get xMACDScale() {
+    const { width, padding, data } = this.props
+    return scaleBand().range([0 + padding, width - padding]).domain(data.map((d, i) => i))
+  }
+
+  get yMACDScale() {
+    const { height, padding, data } = this.props
+    const yMax = max(data.map(d => Math.abs(d.macd)))
+    return scaleLinear().range([height - padding, 0 + padding]).domain([-yMax, yMax]).nice()
   }
 
   x = (data, i) => this.xScale(i)
-  y = data => this.yScale(data.price)
+  y = data => this.yScale(data.close)
   yEMA20 = data => this.yScale(data.ema20)
   yEMA50 = data => this.yScale(data.ema50)
-  // yVolume = data => this.yVolumeScale(data.baseVolume)
+  yVolume = data => this.yVolumeScale(data.baseVolume)
+  xMACD = (data, i) => this.xMACDScale(i)
+  yMACD = data => this.yMACDScale(data.macd)
 }
-
-export default fitWidth(Sparkline)

@@ -1,3 +1,4 @@
 import GDAX from './gdax'
 import Poloniex from './poloniex'
-export default [GDAX, Poloniex]
+import Coinbase from './coinbase'
+export default [GDAX, Poloniex, Coinbase]

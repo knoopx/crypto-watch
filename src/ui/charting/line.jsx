@@ -1,12 +1,11 @@
 import React from 'react'
 import { line } from 'd3'
 import PropTypes from 'prop-types'
-import { propTypes } from 'mobx-react'
 import OpenColor from 'open-color'
 
 export default class Line extends React.PureComponent {
   static propTypes = {
-    data: propTypes.arrayOrObservableArray,
+    data: PropTypes.array,
     x: PropTypes.func,
     y: PropTypes.func,
   }

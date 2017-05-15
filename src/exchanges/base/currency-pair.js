@@ -1,44 +1,84 @@
-import { observable, action, computed } from 'mobx'
-import { EMA } from 'technicalindicators/lib/index'
+import R from 'ramda'
+import { observable, action, computed, autorun, toJS, untracked } from 'mobx'
+import { EMA, MACD } from 'technicalindicators/lib/index'
 import { percentChange } from 'support'
+import IconSparkline from 'app/currency-pair-list/icon-sparkline'
+import React from 'react'
+import { render } from 'react-dom'
+import { symbolize, summarize, renderSVG } from 'support'
 
 export default class CurrencyPair {
-  windowSize = 3600 * 2
-  @observable history = []
+  @observable candles = []
+  @observable alerts = new Map()
 
-  constructor(exchange, name) {
-    this.name = name
-    const [base, quote] = name.split('/', 2)
-    this.quote = quote
+  constructor(exchange, base, quote) {
+    this.name = [base, quote].join('/')
     this.base = base
+    this.quote = quote
     this.exchange = exchange
-    this.ema20 = new EMA({ period: 20, values: [] })
-    this.ema50 = new EMA({ period: 50, values: [] })
+
+    autorun(() => {
+      this.alerts.set('MACD UP', this.tail('macd', 2) < 0 && this.tail('macd') > 0)
+      this.alerts.set('MACD DOWN', this.tail('macd', 2) > 0 && this.tail('macd') < 0)
+      // this.alerts.set('CHANGE 5%', Math.abs(this.percentChange) > 0.05)
+    })
   }
 
-  @action update(price) {
-    this.history.push({
-      price,
-      ema20: this.ema20.nextValue(price),
-      ema50: this.ema50.nextValue(price),
-    })
+  @computed get shouldTriggerNotification() {
+    return this.alerts.keys().some(key => this.alerts.get(key) === true)
+  }
 
-    if (this.history.length > this.windowSize) {
-      this.history.shift()
+  async triggerNotification() {
+    const node = document.createElement('div')
+    render(<IconSparkline width={70} height={70} data={summarize(R.average, 50, toJS(this.candles))} />, node)
+    const imageURL = await renderSVG(node.querySelector('svg'))
+    const notification = new Notification(this.name, {
+      body: `${symbolize((this.percentChange * 100).toFixed(2))}%\n${this.tail('close')}\n${this.exchange.constructor.name}`,
+      requireInteraction: false,
+      icon: imageURL,
+    })
+    notification.onshow = () => { setTimeout(() => { notification.close() }, 3000) }
+  }
+
+  @action update(candles) {
+    this.indicators = {
+      ema20: new EMA({ period: 20, values: [] }),
+      ema50: new EMA({ period: 50, values: [] }),
+      macd: new MACD({ fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, values: [] }),
+    }
+    this.candles = candles.map(this.processCandle)
+  }
+
+  processCandle(candle) {
+    const { close } = candle
+    const nextmacd = this.indicators.macd.nextValue(close)
+    return {
+      ...candle,
+      ema20: this.indicators.ema20.nextValue(close),
+      ema50: this.indicators.ema50.nextValue(close),
+      macd: nextmacd ? nextmacd.histogram : null,
     }
   }
 
-  @computed get head() {
-    return this.history[0] || { price: 0.0 }
+  head(propName, index = 1) {
+    const candle = this.candles[index]
+    if (candle) {
+      return candle[propName]
+    }
+    return 0
   }
 
-  @computed get tail() {
-    return this.history[this.history.length - 1] || { price: 0.0 }
+  tail(propName, index = 1) {
+    const candle = this.candles[this.candles.length - index]
+    if (candle) {
+      return candle[propName]
+    }
+    return 0
   }
 
   @computed get percentChange() {
-    if (this.history.length > 1) {
-      return percentChange(this.tail.price, this.head.price)
+    if (this.candles.length > 1) {
+      return percentChange(this.head('close'), this.tail('close'))
     }
     return 0
   }

@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { propTypes } from 'mobx-react'
+import _ from 'lodash'
 
 export default class Chart extends React.PureComponent {
   static propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    data: propTypes.arrayOrObservableArray.isRequired,
+    data: PropTypes.array.isRequired,
     x: PropTypes.func,
     y: PropTypes.func,
   }
