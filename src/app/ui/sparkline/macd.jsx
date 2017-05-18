@@ -11,7 +11,14 @@ export default class MACD extends React.PureComponent {
   render() {
     const { width, height, data, ...props } = this.props
     return (
-      <Bar x={this.x} xScale={this.xScale} y={this.y} yScale={this.yScale} fill={this.getFill} />
+      <Bar
+        {...{ width, height, data }}
+        x={this.x}
+        xScale={this.xScale}
+        y={this.y}
+        yScale={this.yScale}
+        fill={this.getFill}
+      />
     )
   }
 

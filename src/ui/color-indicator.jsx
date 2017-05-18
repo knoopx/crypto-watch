@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React from 'react'
+import PropTypes from 'prop-types'
 import OpenColor from 'open-color'
 
 export default class ColorIndicator extends React.PureComponent {

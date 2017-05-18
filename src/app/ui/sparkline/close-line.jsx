@@ -12,7 +12,12 @@ export default class CloseLine extends React.PureComponent {
     const { width, height, data, ...props } = this.props
 
     return (
-      <Line y={this.y} stroke={OpenColor.gray[6]} />
+      <Line
+        {...{ width, height, data }}
+        x={this.x}
+        y={this.y}
+        stroke={OpenColor.gray[6]}
+      />
     )
   }
 

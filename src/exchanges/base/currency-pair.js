@@ -1,11 +1,6 @@
-import R from 'ramda'
 import { observable, action, computed, autorun, toJS } from 'mobx'
-import { EMA, MACD } from 'technicalindicators/lib/index'
+import { EMA, MACD } from 'technicalindicators'
 import { percentChange } from 'support'
-import CloseLine from 'app/ui/close-line'
-import React from 'react'
-import { render } from 'react-dom'
-import { symbolize, summarize, renderSVG } from 'support'
 
 export default class CurrencyPair {
   @observable candles = []
@@ -18,26 +13,17 @@ export default class CurrencyPair {
     this.exchange = exchange
 
     autorun(() => {
-      this.alerts.set('MACD UP', this.tail('macd', 2) < 0 && this.tail('macd') > 0)
-      this.alerts.set('MACD DOWN', this.tail('macd', 2) > 0 && this.tail('macd') < 0)
-      // this.alerts.set('CHANGE 5%', Math.abs(this.percentChange) > 0.05)
+      this.alerts.set('▲ MACD', this.tail('macd', 2) < 0 && this.tail('macd') > 0)
+      this.alerts.set('▼ MACD', this.tail('macd', 2) > 0 && this.tail('macd') < 0)
+      this.alerts.set('▲ 5%', this.percentChange > 0.05)
+      this.alerts.set('▼ 5%', this.percentChange < 0.05)
     })
-  }
 
-  @computed get shouldTriggerNotification() {
-    return this.alerts.keys().some(key => this.alerts.get(key) === true)
-  }
-
-  async triggerNotification() {
-    const node = document.createElement('div')
-    render(<CloseLine width={70} height={70} data={summarize(R.average, 50, toJS(this.candles))} />, node)
-    const imageURL = await renderSVG(node.querySelector('svg'))
-    const notification = new Notification(this.name, {
-      body: `${symbolize((this.percentChange * 100).toFixed(2))}%\n${this.tail('close')}\n${this.exchange.constructor.name}`,
-      requireInteraction: false,
-      icon: imageURL,
+    this.alerts.observe(({ type, name, newValue }) => {
+      if (type === 'update' && newValue) {
+        this.exchange.alert(this, name)
+      }
     })
-    notification.onshow = () => { setTimeout(() => { notification.close() }, 3000) }
   }
 
   @action update(candles) {

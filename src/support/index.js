@@ -1,4 +1,8 @@
 import R from 'ramda'
+import React from 'react'
+import { Chart } from 'ui/charting'
+import { render } from 'react-dom'
+import CloseLine from 'app/ui/sparkline/close-line'
 
 export function percentChange(before, after) {
   return (after - before) / ((after + before) / 2)
@@ -43,3 +47,13 @@ export const summarize = R.curry((fn, sliceSize, table) => R.pipe(
     rowGroup,
    )),
 )(table))
+
+export async function getNotificationIconURL(currencyPair, iconSize = 70) {
+  const node = document.createElement('div')
+  render(
+    <Chart width={iconSize} height={iconSize}>
+      <CloseLine width={iconSize} height={iconSize} data={summarize(R.average, 50, currencyPair.candles)} />
+    </Chart>
+  , node)
+  return renderSVG(node.querySelector('svg'))
+}

@@ -1,17 +1,22 @@
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import R from 'ramda'
+import { inject } from 'mobx-react'
 
 export default class Bar extends React.PureComponent {
   static propTypes = {
-    width: PropTypes.number,
-    height: PropTypes.number,
-    data: PropTypes.array,
-    x: PropTypes.func,
-    y: PropTypes.func,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    data: PropTypes.array.isRequired,
+    x: PropTypes.func.isRequired,
+    y: PropTypes.func.isRequired,
+    xScale: PropTypes.func.isRequired,
+    yScale: PropTypes.func.isRequired,
+    fill: PropTypes.func,
   }
 
   static defaultProps = {
+    data: [],
     shapeRendering: 'crispEdges',
   }
 

@@ -1,8 +1,7 @@
-import _ from 'lodash'
 import R from 'ramda'
 import Fuzzaldrin from 'fuzzaldrin'
 import { persist } from 'mobx-persist'
-import { observable, action, computed, autorun } from 'mobx'
+import { observable, action, computed, autorun, observe } from 'mobx'
 import exchanges from 'exchanges'
 
 export default class AppStore {
@@ -30,53 +29,44 @@ export default class AppStore {
 
   availableExchanges = exchanges
 
-  constructor() {
-    autorun(() => {
-      this.currencyPairsPendingNotification.forEach((currencyPair) => { currencyPair.triggerNotification() })
-    })
-  }
-
-  @computed get currencyPairsPendingNotification() {
-    if (this.muteNotifications) { return [] }
-    return this.currencyPairs.filter(currencyPair => currencyPair.shouldTriggerNotification)
-  }
-
   @computed get exchanges() {
-    // return _.chain(this.watchList)
-    //   .groupBy('exchange')
-    //   .entries()
-    //   .map(([name, values]) => [this.getExchangeClass(name), _.map(values, 'currencyPair')])
-    //   .filter(([klass]) => _.isObject(klass))
-    //   .map(([Klass, watchList]) => new Klass(watchList))
-    //   .value()
-    R.pipe(
+    return R.pipe(
       R.groupBy(R.prop('exchange')),
-      R.pairs,
-      R.map((name, entries) => [this.getExchangeClass(name), R.pluck(entries, 'currencyPair')]),
-      R.filter(R.is(Object)),
-      R.map((Class, watchList) => new Class(watchList)),
+      R.toPairs,
+      R.map(([name, entries]) => [this.getExchangeClass(name), R.pluck('currencyPair', entries)]),
+      R.reject(R.pipe(R.head, R.isNil)),
+      R.map(([Class, watchList]) => new Class(this, watchList)),
     )(this.watchList)
   }
 
+  getExchange(name) {
+    return R.find(R.propEq('name', name), this.exchanges)
+  }
+
   getExchangeClass(name) {
-    return _.find(this.availableExchanges, { name })
+    return R.find(R.propEq('name', name), this.availableExchanges)
   }
 
   @computed get currencyPairs() {
-    return _.chain(this.exchanges)
-      .map('currencyPairs')
-      .flatten()
-      .orderBy(['percentChange', 'quote', 'base'], ['desc', 'asc', 'asc'])
-      .value()
+    return R.pipe(
+        R.map(R.prop('currencyPairs')),
+        R.flatten,
+        R.sortWith([
+          R.descend(R.prop('percentChange')),
+          R.prop('quote'),
+          R.prop('base'),
+        ]),
+      )(this.exchanges)
   }
 
   @computed get filteredCurrencyPairs() {
     const results = Fuzzaldrin.filter(this.currencyPairs, this.filter.query, { key: 'name' })
-    return _.filter(results, _.omitBy({ base: this.filter.market }, _.isEmpty))
+    if (R.isEmpty(this.filter.market)) { return results }
+    return results.filter(R.propName('base', this.filter.market))
   }
 
   @computed get markets() {
-    return _.chain(this.currencyPairs).map('base').uniq().sort().value()
+    return R.pipe(R.pluck('base'), R.uniq, Array.sort)(this.currencyPairs)
   }
 
   @action setQuery = (query) => {
@@ -88,6 +78,13 @@ export default class AppStore {
       this.filter.market = ''
     } else {
       this.filter.market = market
+    }
+  }
+
+  async notify(...args) {
+    if (!this.muteNotifications) {
+      const notification = new Notification(...args)
+      notification.onshow = () => { setTimeout(() => { notification.close() }, 5000) }
     }
   }
 }

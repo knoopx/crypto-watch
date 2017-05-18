@@ -1,5 +1,5 @@
+import R from 'ramda'
 import { observable, computed, action } from 'mobx'
-import _ from 'lodash'
 
 import Exchange from 'exchanges/base'
 
@@ -10,7 +10,11 @@ export default class Coinbase extends Exchange {
     const res = await fetch(this.buildGetCandlesURL(currencyPair), { headers })
     const json = await res.json()
     const candles = json.data.prices.map(({ price, time }) => ({ time: new Date(time), close: parseFloat(price) }))
-    return _.orderBy(candles, 'time', 'asc')
+    return R.sortBy(R.prop('time'), candles)
+  }
+
+  getCurrencyPairs() {
+    return ['BTC/EUR', 'EUR/BTC']
   }
 
   buildGetCandlesURL(currencyPair) {

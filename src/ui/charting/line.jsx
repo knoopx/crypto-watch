@@ -1,26 +1,29 @@
+import R from 'ramda'
 import React from 'react'
 import { line } from 'd3'
 import PropTypes from 'prop-types'
-import OpenColor from 'open-color'
 
 export default class Line extends React.PureComponent {
   static propTypes = {
-    data: PropTypes.array,
-    x: PropTypes.func,
-    y: PropTypes.func,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    data: PropTypes.array.isRequired,
+    x: PropTypes.func.isRequired,
+    y: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
+    data: [],
     fill: 'transparent',
   }
 
+
   render() {
     const { data, x, y, ...props } = this.props
-
-    const lines = data.map((d, i) => [x(d, i), y(d, i)]).filter(val => val.every(v => !Number.isNaN(v)))
+    const d = R.pipe(R.addIndex(R.map)((value, i) => [x(value, i), y(value, i)]), R.reject(R.any(Number.isNaN)), line())
     return (
       <g>
-        <path {...props} d={line()(lines)} />
+        <path {...props} d={d(data)} />
       </g>
     )
   }

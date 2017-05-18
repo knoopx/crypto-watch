@@ -1,16 +1,26 @@
+import R from 'ramda'
 import React from 'react'
-import { isEqual } from 'lodash'
+import PropTypes from 'prop-types'
 import { Motion, spring } from 'react-motion'
 
 export default class Blink extends React.PureComponent {
-  state = { hasChanged: false }
+  static defaultProps = {
+    duration: 500,
+  }
+
+  static propTypes = {
+    duration: PropTypes.number.isRequired,
+  }
+
+  state = { in: false }
 
   componentWillUpdate(nextProps) {
-    if (!isEqual(nextProps.children, this.props.children)) {
-      this.setState({ hasChanged: true })
+    if (!R.equals(this.props.children, nextProps.children)) {
+      this.setState({ in: true })
+      clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
-        this.setState({ hasChanged: false })
-      }, 500)
+        this.setState({ in: false })
+      }, this.props.duration)
     }
   }
 
@@ -19,9 +29,9 @@ export default class Blink extends React.PureComponent {
   }
 
   render() {
-    const { style, ...props } = this.props
+    const { style, duration, ...props } = this.props
     return (
-      <Motion style={{ opacity: this.state.hasChanged ? spring(0) : spring(1) }}>
+      <Motion style={{ opacity: this.state.in ? spring(0) : spring(1) }}>
         {({ opacity }) => <span {...props} style={{ ...style, opacity }} />}
       </Motion>
     )

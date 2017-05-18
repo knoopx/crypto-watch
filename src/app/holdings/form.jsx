@@ -1,7 +1,6 @@
 import React from 'react'
 import { observable } from 'mobx'
 import { inject, observer } from 'mobx-react'
-import { Pane, Header, Body, Footer } from 'ui/pane'
 import ExchangeSelect from '../exchange-select'
 
 @inject('appStore')
@@ -33,7 +32,7 @@ export default class HoldingForm extends React.PureComponent {
         </label>
 
         <label>
-          Price
+          Rate
           <input type="number" value={this.holding.rate} onChange={(e) => { this.holding.rate = e.target.value }} />
         </label>
 
@@ -58,9 +57,9 @@ export default class HoldingForm extends React.PureComponent {
       exchange: '',
       base: '',
       quote: '',
-      amount: 1,
-      prince: '',
-      fee: 0.0,
+      amount: '1',
+      rate: '',
+      fee: '0',
     }
   }
 }

@@ -1,18 +1,26 @@
-import { observable, autorun, computed, toJS } from 'mobx'
+import { observable, computed } from 'mobx'
 import CurrencyPair from './currency-pair'
+import { symbolize, getNotificationIconURL } from 'support'
 
 export default class Exchange {
   @observable currencyPairMap = new Map()
   @observable period = 'day'
+  @observable currencyPairs = []
 
-  constructor(watchlist) {
+  constructor(appState, watchlist) {
+    this.appState = appState
     this.watchlist = watchlist
-    this.refresh()
-    setInterval(this.refresh, 5000)
+    this.fetch()
+    this.interval = setInterval(this.refresh, 5000)
   }
 
   @computed get currencyPairs() {
     return Array.from(this.currencyPairMap.values())
+  }
+
+  async fetch() {
+    this.currencyPairs = this.getCurrencyPairs()
+    this.refresh()
   }
 
   async refresh() {
@@ -55,5 +63,12 @@ export default class Exchange {
       this.currencyPairMap.set(key, currencyPair)
     }
     return currencyPair
+  }
+
+  alert(currencyPair, description) {
+    const percentChange = `${symbolize((currencyPair.percentChange * 100).toFixed(2))}%`
+    const title = `${currencyPair.name} (${currencyPair.exchange.constructor.name})`
+    const body = [description, `${currencyPair.tail('close')} (${percentChange})`].join('\n')
+    this.appState.notify(title, { body, icon: getNotificationIconURL(currencyPair) })
   }
 }
