@@ -1,8 +1,8 @@
 import R from 'ramda'
-import { observable, action, computed, autorun, toJS, untracked } from 'mobx'
+import { observable, action, computed, autorun, toJS } from 'mobx'
 import { EMA, MACD } from 'technicalindicators/lib/index'
 import { percentChange } from 'support'
-import IconSparkline from 'app/currency-pair-list/icon-sparkline'
+import CloseLine from 'app/ui/close-line'
 import React from 'react'
 import { render } from 'react-dom'
 import { symbolize, summarize, renderSVG } from 'support'
@@ -30,7 +30,7 @@ export default class CurrencyPair {
 
   async triggerNotification() {
     const node = document.createElement('div')
-    render(<IconSparkline width={70} height={70} data={summarize(R.average, 50, toJS(this.candles))} />, node)
+    render(<CloseLine width={70} height={70} data={summarize(R.average, 50, toJS(this.candles))} />, node)
     const imageURL = await renderSVG(node.querySelector('svg'))
     const notification = new Notification(this.name, {
       body: `${symbolize((this.percentChange * 100).toFixed(2))}%\n${this.tail('close')}\n${this.exchange.constructor.name}`,

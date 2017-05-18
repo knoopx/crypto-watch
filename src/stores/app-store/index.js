@@ -1,8 +1,8 @@
 import _ from 'lodash'
+import R from 'ramda'
 import Fuzzaldrin from 'fuzzaldrin'
 import { persist } from 'mobx-persist'
-import { observable, action, computed, autorun, untracked } from 'mobx'
-
+import { observable, action, computed, autorun } from 'mobx'
 import exchanges from 'exchanges'
 
 export default class AppStore {
@@ -42,13 +42,20 @@ export default class AppStore {
   }
 
   @computed get exchanges() {
-    return _.chain(this.watchList)
-      .groupBy('exchange')
-      .entries()
-      .map(([name, values]) => [this.getExchangeClass(name), _.map(values, 'currencyPair')])
-      .filter(([klass]) => _.isObject(klass))
-      .map(([Klass, watchList]) => new Klass(watchList))
-      .value()
+    // return _.chain(this.watchList)
+    //   .groupBy('exchange')
+    //   .entries()
+    //   .map(([name, values]) => [this.getExchangeClass(name), _.map(values, 'currencyPair')])
+    //   .filter(([klass]) => _.isObject(klass))
+    //   .map(([Klass, watchList]) => new Klass(watchList))
+    //   .value()
+    R.pipe(
+      R.groupBy(R.prop('exchange')),
+      R.pairs,
+      R.map((name, entries) => [this.getExchangeClass(name), R.pluck(entries, 'currencyPair')]),
+      R.filter(R.is(Object)),
+      R.map((Class, watchList) => new Class(watchList)),
+    )(this.watchList)
   }
 
   getExchangeClass(name) {

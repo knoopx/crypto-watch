@@ -3,9 +3,8 @@ import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import Blink from 'ui/blink'
 import ColorIndicator from 'ui/color-indicator'
-import Sparkline from './sparkline'
-import R from 'ramda'
-import { symbolize, summarize } from 'support'
+import Sparkline from 'app/ui/sparkline'
+import { symbolize } from 'support'
 
 @observer
 export default class CurrencyPairListItem extends React.PureComponent {
