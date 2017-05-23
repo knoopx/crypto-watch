@@ -8,6 +8,7 @@ export default class ExchangeSelect extends React.PureComponent {
     const { appStore, ...props } = this.props
     return (
       <select {...props}>
+        <option value="" />
         {appStore.availableExchanges.map(exchange => <option key={exchange.name} value={exchange.name}>{exchange.name}</option>)}
       </select>
     )

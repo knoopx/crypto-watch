@@ -11,10 +11,11 @@ export default class CurrencyPairForm extends React.PureComponent {
 
   render() {
     const { appStore } = this.props
+
     return (
       <form onSubmit={this.onSubmit}>
         <ExchangeSelect className="mr2" value={this.watchItem.exchange} onChange={(e) => { this.watchItem.exchange = e.target.value }} />
-        <CurrencyPairSelect className="mr2" exchange={this.exchange} value={this.currencyPair} onChange={(e) => { this.watchItem.currencyPair = e.target.value }} />
+        <CurrencyPairSelect className="mr2" pairs={this.pairs} value={this.pair} onChange={(e) => { this.watchItem.pair = e.target.value }} />
         <input type="submit" value="Submit" />
       </form>
     )
@@ -22,6 +23,10 @@ export default class CurrencyPairForm extends React.PureComponent {
 
   @computed get exchange() {
     return this.props.appStore.getExchange(this.watchItem.exchange)
+  }
+
+  @computed get pairs() {
+    return this.exchange ? this.exchange.supportedCurrencyPairs : []
   }
 
   onSubmit(e) {
@@ -33,7 +38,7 @@ export default class CurrencyPairForm extends React.PureComponent {
   build() {
     return {
       exchange: '',
-      currencyPair: '',
+      pair: '',
     }
   }
 }

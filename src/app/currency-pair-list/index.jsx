@@ -8,10 +8,10 @@ export default class CurrencyPairList extends React.PureComponent {
   render() {
     return (
       <div className="flex flex-wrap overflow-y-auto">
-        {this.props.currencyPairs.map(this.renderItem)}
+        {this.props.pairs.map(this.renderItem)}
       </div>
     )
   }
 
-  renderItem = currencyPair => <CurrencyPairListItem key={currencyPair.name} currencyPair={currencyPair} />
+  renderItem = pair => <CurrencyPairListItem key={pair.symbol} pair={pair} />
 }

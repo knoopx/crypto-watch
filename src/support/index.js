@@ -48,11 +48,11 @@ export const summarize = R.curry((fn, sliceSize, table) => R.pipe(
    )),
 )(table))
 
-export async function getNotificationIconURL(currencyPair, iconSize = 70) {
+export async function getNotificationIconURL(pair, iconSize = 70) {
   const node = document.createElement('div')
   render(
     <Chart width={iconSize} height={iconSize}>
-      <CloseLine width={iconSize} height={iconSize} data={summarize(R.average, 50, currencyPair.candles)} />
+      <CloseLine width={iconSize} height={iconSize} data={pair.candles.values()} />
     </Chart>
   , node)
   return renderSVG(node.querySelector('svg'))

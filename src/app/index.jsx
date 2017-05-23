@@ -16,27 +16,39 @@ import Holdings from './holdings'
 export default class App extends React.PureComponent {
   render() {
     const { appStore } = this.props
-    const NotificationIcon = appStore.muteNotifications ? NotificationsOff : Notifications
 
     return (
       <div className="flex flex-column flex-auto">
-        <Pane className="bb b--moon-gray" style={{ flex: 8 }}>
-          <Header>
-            <TransparentInput className="pa2" placeholder={`${appStore.filteredCurrencyPairs.length} currencies`} onChange={appStore.setQuery} />
-            <NotificationIcon className="black" size={24} onClick={() => { appStore.muteNotifications = !appStore.muteNotifications }} />
-          </Header>
-          <Header>
-            <MarketFilter />
-          </Header>
-          <Body>
-            <CurrencyPairList currencyPairs={appStore.filteredCurrencyPairs} />
-          </Body>
-          <Footer>
-            <CurrencyPairForm />
-          </Footer>
-        </Pane>
-        <Holdings />
+        {this.renderContent()}
       </div>
     )
+  }
+
+  renderContent() {
+    const { appStore } = this.props
+    const NotificationIcon = appStore.muteNotifications ? NotificationsOff : Notifications
+    if (appStore.isConnected) {
+      return (
+        <div>
+          <Pane className="bb b--moon-gray" style={{ flex: 8 }}>
+            <Header>
+              {/* <TransparentInput className="pa2" placeholder={`${appStore.filteredCurrencyPairs.length} currencies`} onChange={appStore.setQuery} /> */}
+              <NotificationIcon className="black" size={24} onClick={() => { appStore.muteNotifications = !appStore.muteNotifications }} />
+            </Header>
+            {/* <Header>
+              <MarketFilter />
+            </Header> */}
+            <Body>
+              <CurrencyPairList pairs={appStore.pairs} />
+            </Body>
+            {/* <Footer>
+              <CurrencyPairForm />
+            </Footer> */}
+          </Pane>
+          {/* <Holdings /> */}
+        </div>
+      )
+    }
+    return <div className="flex flex-auto items-center justify-center">Connecting...</div>
   }
 }
