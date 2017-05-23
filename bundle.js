@@ -58058,19 +58058,6 @@ let CurrencyPairListItem = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODU
     value: function render() {
       const { appStore, pair } = this.props;
 
-      const matchProps = __WEBPACK_IMPORTED_MODULE_0_ramda___default.a.props(['quote', 'base']);
-      const holdings = appStore.holdings.filter(__WEBPACK_IMPORTED_MODULE_0_ramda___default.a.pipe(matchProps, __WEBPACK_IMPORTED_MODULE_0_ramda___default.a.equals(matchProps(pair)))).map(({ amount, rate, fee }) => ({
-        amount: parseFloat(amount), rate: parseFloat(rate), fee: parseFloat(fee)
-      }));
-
-      const amount = __WEBPACK_IMPORTED_MODULE_0_ramda___default.a.sum(__WEBPACK_IMPORTED_MODULE_0_ramda___default.a.pluck('amount', holdings));
-      const rate = __WEBPACK_IMPORTED_MODULE_0_ramda___default.a.mean(__WEBPACK_IMPORTED_MODULE_0_ramda___default.a.pluck('rate', holdings));
-      const fee = __WEBPACK_IMPORTED_MODULE_0_ramda___default.a.sum(__WEBPACK_IMPORTED_MODULE_0_ramda___default.a.pluck('fee', holdings));
-      const cost = rate + fee;
-
-      const revenuePercent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_support__["a" /* percentChange */])(amount * cost, amount * pair.tail('close'));
-      const revenue = revenuePercent * pair.tail('close');
-
       return _jsx('div', {
         className: 'flex flex-auto justify-center items-center pa3 ba b--light-gray'
       }, void 0, _jsx('div', {
@@ -58083,13 +58070,16 @@ let CurrencyPairListItem = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODU
         className: 'mb1'
       }, void 0, Array.from(pair.tail('close').toFixed(8)).map((char, i) => _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, i, char))), _jsx(__WEBPACK_IMPORTED_MODULE_5_ui_color_indicator__["a" /* default */], {
         className: 'f6',
-        value: pair.percentChange(4)
-      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_support__["b" /* symbolize */])((pair.percentChange(pair.candles.size) * 100).toFixed(2)), '%')), holdings.length > 0 && _jsx('div', {
-        className: 'gray f7'
-      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, void 0, amount.toFixed(8)), _jsx(__WEBPACK_IMPORTED_MODULE_5_ui_color_indicator__["a" /* default */], {
+        value: pair.percentChange(2)
+      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_support__["a" /* symbolize */])((pair.percentChange(2) * 100).toFixed(2)), '%')), _jsx(__WEBPACK_IMPORTED_MODULE_5_ui_color_indicator__["a" /* default */], {
         className: 'f6',
-        value: revenuePercent
-      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_support__["b" /* symbolize */])(revenue.toFixed(2)), ' ', pair.base), ' (', _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_support__["b" /* symbolize */])((revenuePercent * 100).toFixed(2)), '%'), ')'))), _jsx('div', {
+        value: pair.percentChange(pair.candles.size)
+      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_support__["a" /* symbolize */])((pair.percentChange(pair.candles.size) * 100).toFixed(2)), '%')), pair.holdings.length > 0 && _jsx('div', {
+        className: 'gray f7'
+      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, void 0, pair.amount.toFixed(8)), _jsx(__WEBPACK_IMPORTED_MODULE_5_ui_color_indicator__["a" /* default */], {
+        className: 'f6',
+        value: pair.revenuePercent
+      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_support__["a" /* symbolize */])(pair.revenue.toFixed(2)), ' ', pair.base), ' (', _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_support__["a" /* symbolize */])((pair.revenuePercent * 100).toFixed(2)), '%'), ')'))), _jsx('div', {
         className: 'w5'
       }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_6_app_ui_sparkline__["a" /* default */], {
         data: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx__["toJS"])(pair.candles.values()),
@@ -58528,7 +58518,7 @@ let Holdings = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_re
       const rate = parseFloat(holding.rate);
       const fee = parseFloat(holding.fee);
       const cost = rate + fee;
-      const revenuePercent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9_support__["a" /* percentChange */])(cost, pair.tail('close'));
+      const revenuePercent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9_support__["b" /* percentChange */])(cost, pair.tail('close'));
       const revenue = amount * cost * revenuePercent / 100;
 
       return _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_table__["b" /* Row */], {}, i, _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_table__["c" /* Column */], {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_6__exchange_select__["a" /* default */], {
@@ -58557,7 +58547,7 @@ let Holdings = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_re
       }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_blink__["a" /* default */], {}, void 0, amount.toFixed(8)), _jsx(__WEBPACK_IMPORTED_MODULE_8_ui_color_indicator__["a" /* default */], {
         className: 'f6',
         value: revenuePercent
-      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9_support__["b" /* symbolize */])(revenue.toFixed(8)), ' ', pair.quote), ' (', _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9_support__["b" /* symbolize */])((revenuePercent * 100).toFixed(2)), '%'), ')'))), _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_table__["c" /* Column */], {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_5_react_icons_lib_md_delete___default.a, {
+      }, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9_support__["a" /* symbolize */])(revenue.toFixed(8)), ' ', pair.quote), ' (', _jsx(__WEBPACK_IMPORTED_MODULE_7_ui_blink__["a" /* default */], {}, void 0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9_support__["a" /* symbolize */])((revenuePercent * 100).toFixed(2)), '%'), ')'))), _jsx(__WEBPACK_IMPORTED_MODULE_4_ui_table__["c" /* Column */], {}, void 0, _jsx(__WEBPACK_IMPORTED_MODULE_5_react_icons_lib_md_delete___default.a, {
         className: 'pointer',
         size: 22,
         onClick: () => appStore.holdings.remove(holding)
@@ -59099,7 +59089,8 @@ function _initializerWarningHelper(descriptor, context) {
 
 
 
-let AppStore = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_persist__["persist"])('list'), _dec2 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_persist__["persist"])('list'), _dec3 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_persist__["persist"])('object'), (_class = function () {
+
+let AppStore = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_persist__["persist"])('list'), _dec2 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_persist__["persist"])('map'), _dec3 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_persist__["persist"])('object'), (_class = function () {
   function AppStore() {
     _classCallCheck(this, AppStore);
 
@@ -59229,7 +59220,7 @@ let AppStore = (_dec = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_mobx_pe
 }), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'holdings', [_dec2, __WEBPACK_IMPORTED_MODULE_3_mobx__["observable"]], {
   enumerable: true,
   initializer: function () {
-    return [];
+    return new __WEBPACK_IMPORTED_MODULE_4__collection__["a" /* default */](__WEBPACK_IMPORTED_MODULE_5__exchange__["a" /* default */], 'id');
   }
 }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'filter', [_dec3, __WEBPACK_IMPORTED_MODULE_3_mobx__["observable"]], {
   enumerable: true,
@@ -59404,7 +59395,7 @@ let Exchange = (_class = function () {
   _createClass(Exchange, [{
     key: 'alert',
     value: async function alert(pair, description) {
-      const change = `${__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_support__["a" /* percentChange */])(pair.tail('close', 2), pair.tail('close', 1)).toFixed(2)}%`;
+      const change = `${__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_support__["b" /* percentChange */])(pair.tail('close', 2), pair.tail('close', 1)).toFixed(2)}%`;
       const body = [[description, change].join(' '), pair.tail('close').toFixed(8)].join('\n');
       this.appStore.notify(`${pair.symbol} - ${pair.exchange.name}`, { body, icon: await __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_support__["c" /* getNotificationIconURL */])(pair) });
     }
@@ -59437,11 +59428,13 @@ let Exchange = (_class = function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Pair; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mobx__ = __webpack_require__("./node_modules/mobx/lib/mobx.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mobx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mobx__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_support__ = __webpack_require__("./src/support/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__collection__ = __webpack_require__("./src/stores/collection.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__candle__ = __webpack_require__("./src/stores/candle.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ramda__ = __webpack_require__("./node_modules/ramda/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ramda___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_ramda__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mobx__ = __webpack_require__("./node_modules/mobx/lib/mobx.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mobx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_mobx__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_support__ = __webpack_require__("./src/support/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__collection__ = __webpack_require__("./src/stores/collection.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__candle__ = __webpack_require__("./src/stores/candle.js");
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _desc, _value, _class, _descriptor, _descriptor2;
@@ -59496,6 +59489,7 @@ function _initializerWarningHelper(descriptor, context) {
 
 
 
+
 let Pair = (_class = function () {
   function Pair() {
     _classCallCheck(this, Pair);
@@ -59511,9 +59505,9 @@ let Pair = (_class = function () {
     // ema20: new EMA({ period: 20, values: [] }),
     // ema50: new EMA({ period: 50, values: [] }),
     // macd: new MACD({ fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, values: [] }),
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_mobx__["autorun"])(() => {
-      this.alerts.set('▲', this.tail('close', 2) < this.tail('close', 1));
-      this.alerts.set('▼', this.tail('close', 2) > this.tail('close', 1));
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_mobx__["autorun"])(() => {
+      this.alerts.set('▲', this.percentChange(2) > 0.01);
+      this.alerts.set('▼', this.percentChange(2) < 0.01);
     });
 
     this.alerts.observe(({ type, name, newValue }) => {
@@ -59544,22 +59538,57 @@ let Pair = (_class = function () {
   }, {
     key: 'percentChange',
     value: function percentChange(index) {
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_support__["a" /* percentChange */])(this.tail('close', index), this.tail('close'));
+      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_support__["b" /* percentChange */])(this.tail('close', index), this.tail('close'));
+    }
+  }, {
+    key: 'holdings',
+    get: function () {
+      return this.exchange.appStore.holdings.values().filter(h => h.exchange === this.exchange.name);
+    }
+  }, {
+    key: 'amount',
+    get: function () {
+      __WEBPACK_IMPORTED_MODULE_0_ramda___default.a.sum(__WEBPACK_IMPORTED_MODULE_0_ramda___default.a.pluck('amount', this.holdings));
+    }
+  }, {
+    key: 'rate',
+    get: function () {
+      return __WEBPACK_IMPORTED_MODULE_0_ramda___default.a.mean(__WEBPACK_IMPORTED_MODULE_0_ramda___default.a.pluck('rate', this.holdings));
+    }
+  }, {
+    key: 'fee',
+    get: function () {
+      return __WEBPACK_IMPORTED_MODULE_0_ramda___default.a.sum(__WEBPACK_IMPORTED_MODULE_0_ramda___default.a.pluck('fee', this.holdings));
+    }
+  }, {
+    key: 'cost',
+    get: function () {
+      return this.rate + this.fee;
+    }
+  }, {
+    key: 'revenuePercent',
+    get: function () {
+      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_support__["b" /* percentChange */])(this.amount * this.cost, this.amount * this.tail('close'));
+    }
+  }, {
+    key: 'revenue',
+    get: function () {
+      return this.revenuePercent * pair.tail('close');
     }
   }]);
 
   return Pair;
-}(), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'candles', [__WEBPACK_IMPORTED_MODULE_0_mobx__["observable"]], {
+}(), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'candles', [__WEBPACK_IMPORTED_MODULE_1_mobx__["observable"]], {
   enumerable: true,
   initializer: function () {
-    return new __WEBPACK_IMPORTED_MODULE_2__collection__["a" /* default */](__WEBPACK_IMPORTED_MODULE_3__candle__["a" /* default */], 'minTime');
+    return new __WEBPACK_IMPORTED_MODULE_3__collection__["a" /* default */](__WEBPACK_IMPORTED_MODULE_4__candle__["a" /* default */], 'minTime');
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'alerts', [__WEBPACK_IMPORTED_MODULE_0_mobx__["observable"]], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'alerts', [__WEBPACK_IMPORTED_MODULE_1_mobx__["observable"]], {
   enumerable: true,
   initializer: function () {
     return new Map();
   }
-})), _class);
+}), _applyDecoratedDescriptor(_class.prototype, 'holdings', [__WEBPACK_IMPORTED_MODULE_1_mobx__["computed"]], Object.getOwnPropertyDescriptor(_class.prototype, 'holdings'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'amount', [__WEBPACK_IMPORTED_MODULE_1_mobx__["computed"]], Object.getOwnPropertyDescriptor(_class.prototype, 'amount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'rate', [__WEBPACK_IMPORTED_MODULE_1_mobx__["computed"]], Object.getOwnPropertyDescriptor(_class.prototype, 'rate'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fee', [__WEBPACK_IMPORTED_MODULE_1_mobx__["computed"]], Object.getOwnPropertyDescriptor(_class.prototype, 'fee'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'cost', [__WEBPACK_IMPORTED_MODULE_1_mobx__["computed"]], Object.getOwnPropertyDescriptor(_class.prototype, 'cost'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'revenuePercent', [__WEBPACK_IMPORTED_MODULE_1_mobx__["computed"]], Object.getOwnPropertyDescriptor(_class.prototype, 'revenuePercent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'revenue', [__WEBPACK_IMPORTED_MODULE_1_mobx__["computed"]], Object.getOwnPropertyDescriptor(_class.prototype, 'revenue'), _class.prototype)), _class);
 
 
 /***/ }),
@@ -59729,8 +59758,8 @@ let Tracker = (_class = function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = percentChange;
-/* harmony export (immutable) */ __webpack_exports__["b"] = symbolize;
+/* harmony export (immutable) */ __webpack_exports__["b"] = percentChange;
+/* harmony export (immutable) */ __webpack_exports__["a"] = symbolize;
 /* unused harmony export renderSVG */
 /* harmony export (immutable) */ __webpack_exports__["c"] = getNotificationIconURL;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ramda__ = __webpack_require__("./node_modules/ramda/index.js");
