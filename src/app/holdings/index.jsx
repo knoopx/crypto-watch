@@ -37,12 +37,12 @@ export default class Holdings extends React.PureComponent {
     const { appStore } = this.props
 
     const matchProps = R.props(['quote', 'base'])
-    const currencyPair = appStore.currencyPairs.find(R.pipe(matchProps, R.equals(matchProps(holding))))
+    const pair = appStore.pairs.find(R.pipe(matchProps, R.equals(matchProps(holding))))
     const amount = parseFloat(holding.amount)
     const rate = parseFloat(holding.rate)
     const fee = parseFloat(holding.fee)
     const cost = rate + fee
-    const revenuePercent = percentChange(cost, currencyPair.tail('close'))
+    const revenuePercent = percentChange(cost, pair.tail('close'))
     const revenue = amount * cost * revenuePercent / 100
 
     return (
@@ -56,7 +56,7 @@ export default class Holdings extends React.PureComponent {
           <ColorIndicator className="f6" value={revenue}>
             <Blink>{amount.toFixed(8)}</Blink>
             <ColorIndicator className="f6" value={revenuePercent}>
-              <Blink>{symbolize(revenue.toFixed(8))} {currencyPair.quote}</Blink> (<Blink>{symbolize((revenuePercent * 100).toFixed(2))}%</Blink>)
+              <Blink>{symbolize(revenue.toFixed(8))} {pair.quote}</Blink> (<Blink>{symbolize((revenuePercent * 100).toFixed(2))}%</Blink>)
             </ColorIndicator>
           </ColorIndicator>
         </Column>

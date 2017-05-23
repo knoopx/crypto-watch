@@ -19,7 +19,7 @@ export default class MarketFilter extends React.PureComponent {
         className={classNames({ mr1: i !== appStore.markets.length - 1 })}
         onClick={() => { appStore.toggleMarket(market) }}
         active={appStore.filter.market === market}
-        count={appStore.currencyPairs.filter(p => p.base === market).length}
+        count={appStore.pairs.filter(p => p.base === market).length}
       >
         {market}
       </TabButton>

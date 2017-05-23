@@ -3,16 +3,14 @@ import { observable } from 'mobx'
 import { inject, observer } from 'mobx-react'
 
 @observer
-@inject('appStore')
 export default class CurrencyPairSelect extends React.PureComponent {
   render() {
-    const { exchange, ...props } = this.props
-    const currencyPairs = exchange ? exchange.currencyPairs : []
+    const { pairs, ...props } = this.props
     return (
       <select {...props}>
-        {currencyPairs.map((({ name }) => (
-          <option value={name}>{name}</option>
-        )))}
+        {pairs.map(name => (
+          <option key={name} value={name}>{name}</option>
+        ))}
       </select>
     )
   }
