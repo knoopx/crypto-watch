@@ -29,7 +29,7 @@ export default class App extends React.PureComponent {
     const NotificationIcon = appStore.muteNotifications ? NotificationsOff : Notifications
     if (appStore.isConnected) {
       return (
-        <div>
+        <div className="flex flex-auto">
           <Pane className="bb b--moon-gray" style={{ flex: 8 }}>
             <Header>
               {/* <TransparentInput className="pa2" placeholder={`${appStore.filteredCurrencyPairs.length} currencies`} onChange={appStore.setQuery} /> */}
@@ -41,9 +41,9 @@ export default class App extends React.PureComponent {
             <Body>
               <CurrencyPairList pairs={appStore.pairs} />
             </Body>
-            {/* <Footer>
+            <Footer>
               <CurrencyPairForm />
-            </Footer> */}
+            </Footer>
           </Pane>
           {/* <Holdings /> */}
         </div>

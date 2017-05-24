@@ -1,5 +1,5 @@
-import shortid from 'shortid'
+import { types } from 'mobx-state-tree'
 
-export default class Holding {
-  id = shortid.generate()
-}
+export const Candle = types.model({
+  id: types.identifier(),
+})

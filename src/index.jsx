@@ -1,17 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { useStrict } from 'mobx'
-import { create } from 'mobx-persist'
 import { Provider } from 'mobx-react'
 import { AppContainer } from 'react-hot-loader'
-
 import App from './app'
 import { AppStore } from './stores'
+import { onSnapshot, connectReduxDevtools } from 'mobx-state-tree'
 
-const hydrate = create()
-// useStrict(true)
-const appStore = new AppStore()
-hydrate('cryto-watch', appStore)
+const appStore = AppStore.create(JSON.parse(localStorage.getItem('state')) || {})
+onSnapshot(appStore, ({ filter, muteNotifications, watchList, availableExchanges }) => localStorage.setItem('state', JSON.stringify({ filter, muteNotifications, watchList, availableExchanges })))
+connectReduxDevtools(require('remotedev'), appStore)
 
 function render() {
   ReactDOM.render(

@@ -1,6 +1,8 @@
 import React from 'react'
-import { observable, computed } from 'mobx'
+import shortid from 'shortid'
+import { observable, computed, toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
+import { WatchListItem } from 'stores/watch-list-item'
 import ExchangeSelect from './exchange-select'
 import CurrencyPairSelect from './currency-pair-select'
 
@@ -15,30 +17,27 @@ export default class CurrencyPairForm extends React.PureComponent {
     return (
       <form onSubmit={this.onSubmit}>
         <ExchangeSelect className="mr2" value={this.watchItem.exchange} onChange={(e) => { this.watchItem.exchange = e.target.value }} />
-        <CurrencyPairSelect className="mr2" pairs={this.pairs} value={this.pair} onChange={(e) => { this.watchItem.pair = e.target.value }} />
+        <input className="mr2" value={this.watchItem.symbol} onChange={(e) => { this.watchItem.symbol = e.target.value }} />
         <input type="submit" value="Submit" />
       </form>
     )
   }
 
-  @computed get exchange() {
-    return this.props.appStore.getExchange(this.watchItem.exchange)
-  }
-
   @computed get pairs() {
-    return this.exchange ? this.exchange.supportedCurrencyPairs : []
+    return this.watchItem.exchange ? this.watchItem.exchange.supportedCurrencyPairs : []
   }
 
   onSubmit(e) {
     e.preventDefault()
-    this.props.appStore.watchList.push(this.watchItem)
+    this.props.appStore.addWatchListItem(toJS(this.watchItem))
     this.watchItem = this.build()
   }
 
   build() {
     return {
+      id: shortid.generate(),
       exchange: '',
-      pair: '',
+      symbol: '',
     }
   }
 }

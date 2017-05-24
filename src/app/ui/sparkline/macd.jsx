@@ -37,6 +37,6 @@ export default class MACD extends React.PureComponent {
   }
 
   getFill({ macd }) {
-    return macd > 0 ? OpenColor.green[3] : OpenColor.red[3]
+    return macd > 0 ? OpenColor.green[6] : OpenColor.red[6]
   }
 }

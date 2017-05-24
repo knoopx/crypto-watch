@@ -22,7 +22,7 @@ export default class Tracker {
 
   onMessage(e) {
     if (e.data === 'X') {
-      console.debug('ping')
+      // console.debug('ping')
     } else {
       const data = JSON.parse(e.data)
       if (data.responseId) {
@@ -35,7 +35,7 @@ export default class Tracker {
       } else {
         this.delegate.onEvent(data)
       }
-      console.debug('message', data)
+      // console.debug('message', data)
     }
   }
 
@@ -65,7 +65,7 @@ export default class Tracker {
   }
 
   send(payload) {
-    console.info('send', payload)
+    // console.info('send', payload)
     this.webSocket.send(JSON.stringify(payload))
   }
 }

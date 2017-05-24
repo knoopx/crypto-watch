@@ -1,6 +1,9 @@
 {
   "parser": "babel-eslint",
   "extends": ["airbnb"],
+  "env": {
+    "browser": true,
+  },
   "rules": {
     "class-methods-use-this": "off",
     "import/no-extraneous-dependencies": "off",
